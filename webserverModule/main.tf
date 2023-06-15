@@ -86,7 +86,7 @@ resource "azurerm_linux_virtual_machine" "obabapp" {
    name = "app-obabwebserver"
    resource_group_name = azurerm_resource_group.obabwebserver.name
    location = var.location
-   custom_data = base64encode(file("init-script"))
+   custom_data = base64encode(file("init-script.sh"))
    network_interface_ids = [
        azurerm_network_interface.obabwebserver.id,
    ]
