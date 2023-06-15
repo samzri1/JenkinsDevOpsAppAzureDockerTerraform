@@ -41,7 +41,27 @@ pipeline {
             steps {
                sh 'az login --service-principal -u $MY_CRED_CLIENT_ID -p $MY_CRED_CLIENT_SECRET -t $MY_CRED_TENANT_ID'
       }
-    }
+        }
+        stage('Terraform init Staging') {
+            steps {
+                sh 'cd stagingEnvironment && terraform init -upgrade'
+            }
+        }
+        stage('Terraform plan Staging') {
+            steps {
+                sh 'cd stagingEnvironment && terraform plan'
+            }
+        }
+        stage('Terraform apply Staging') {
+            steps {
+                sh 'cd stagingEnvironment && terraform apply --auto-approve'
+            }
+        }
+        stage('Sanity check') {
+            steps {
+                input "Does the staging environment look ok?"
+            }
+        }
         stage('Terraform init Prod') {
             steps {
                 sh 'cd ProdEnvironment && terraform init -upgrade'
@@ -56,7 +76,6 @@ pipeline {
             steps {
                 sh 'cd ProdEnvironment && terraform apply --auto-approve'
             }
-        }
-        
-    }
+        }    
+    }        
 }
