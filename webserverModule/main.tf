@@ -1,12 +1,12 @@
 resource "azurerm_resource_group" "obabwebserver" {
-  name = "${var.Resource_Group_name}NGINX"
+  name = "${var.Resource_Group_name}App"
   location = "${var.location}"
 }
 
 ###########################
 
 #resource "azurerm_resource_group" "obabwebserver" {
-#   name = "obabnginx-server"
+#   name = "obabapp-server"
 #   location = var.location
 #}
 
@@ -67,7 +67,7 @@ resource "azurerm_public_ip" "obabwebserver_public_ip" {
 }
 
 resource "azurerm_network_interface" "obabwebserver" {
-   name = "nginx-interface"
+   name = "app-interface"
    location = var.location
    resource_group_name = azurerm_resource_group.obabwebserver.name
 
@@ -81,9 +81,9 @@ resource "azurerm_network_interface" "obabwebserver" {
    depends_on = [azurerm_resource_group.obabwebserver]
 }
 
-resource "azurerm_linux_virtual_machine" "obabnginx" {
+resource "azurerm_linux_virtual_machine" "obabapp" {
    size = var.instance_size
-   name = "nginx-obabwebserver"
+   name = "app-obabwebserver"
    resource_group_name = azurerm_resource_group.obabwebserver.name
    location = var.location
    custom_data = base64encode(file("init-script"))
@@ -98,13 +98,13 @@ resource "azurerm_linux_virtual_machine" "obabnginx" {
        version = "latest"
    }
 
-   computer_name = "obabnginx"
+   computer_name = "obabapp"
    admin_username = "obabadmin"
    admin_password = "Azertyuiop1234"
    disable_password_authentication = false
 
    os_disk {
-       name = "nginxdisk01"
+       name = "appdisk01"
        caching = "ReadWrite"
        #create_option = "FromImage"
        storage_account_type = "Standard_LRS"
