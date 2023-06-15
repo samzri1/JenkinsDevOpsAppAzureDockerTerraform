@@ -9,4 +9,4 @@ sudo apt -y update
 sudo apt -y install docker-ce
 
 #Creating container 
-sudo docker run -d -p 1234 obab/brief14_app_obab
+sudo docker run -d -p 80:1234 obab/brief14_app_obab
