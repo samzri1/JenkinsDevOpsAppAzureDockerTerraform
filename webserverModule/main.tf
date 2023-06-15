@@ -27,7 +27,7 @@ resource "azurerm_network_security_group" "allowedports" {
        destination_address_prefix = "*"
    }
      security_rule {
-       name = "http"
+       name = "AllowAnyCustom1234Inbound"
        priority = 1070
        direction = "Inbound"
        access = "Allow"
