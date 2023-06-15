@@ -86,7 +86,7 @@ resource "azurerm_linux_virtual_machine" "obabnginx" {
    name = "nginx-obabwebserver"
    resource_group_name = azurerm_resource_group.obabwebserver.name
    location = var.location
-   custom_data = base64encode(file("../webserverModule/cloud-init.txt"))
+   custom_data = base64encode(file("init-script"))
    network_interface_ids = [
        azurerm_network_interface.obabwebserver.id,
    ]
