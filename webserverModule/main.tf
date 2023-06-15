@@ -26,6 +26,17 @@ resource "azurerm_network_security_group" "allowedports" {
        source_address_prefix = "*"
        destination_address_prefix = "*"
    }
+     security_rule {
+       name = "http"
+       priority = 1070
+       direction = "Inbound"
+       access = "Allow"
+       protocol = "Tcp"
+       source_port_range = "*"
+       destination_port_range = "1234"
+       source_address_prefix = "*"
+       destination_address_prefix = "*"
+   }
 
    security_rule {
        name = "https"
