@@ -13,7 +13,7 @@ provider "azurerm" {
 
 module "webserverModule" {
   source = "github.com/obabaldbiyat/JenkinsDevOpsAppAzureDockerTerraform/webserverModule"
-  Resource_Group_name = "obab_Staging_"
+  Resource_Group_name = "azuredevops_sam_"
   location = "francecentral"
   instance_size = "Standard_B2s"
   environment = "Staging"
