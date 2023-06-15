@@ -12,7 +12,7 @@ provider "azurerm" {
 }
 
 module "webserverModule" {
-  source = "../webserverModule "
+  source = "./webserverModule "
   Resource_Group_name = "obab_Prod_"
   location = "westeurope"
 }
