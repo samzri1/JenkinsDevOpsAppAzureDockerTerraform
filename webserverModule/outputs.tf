@@ -11,9 +11,9 @@ output "The_vnet_ID" {
 }
 
 output "The_websrever_Private_ip" {
-   value = azurerm_linux_virtual_machine.obabnginx.private_ip_address
+   value = azurerm_linux_virtual_machine.obabapp.private_ip_address
 }
 
 output "The_obabwebserver_Public_ip" {
-   value = azurerm_linux_virtual_machine.obabnginx.public_ip_address
+   value = azurerm_linux_virtual_machine.obabapp.public_ip_address
 }
