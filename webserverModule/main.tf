@@ -1,18 +1,18 @@
-resource "azurerm_resource_group" "obabwebserver" {
+resource "azurerm_resource_group" "samserv" {
   name = "${var.Resource_Group_name}App"
   location = "${var.location}"
 }
 
 ###########################
 
-#resource "azurerm_resource_group" "obabwebserver" {
-#   name = "obabapp-server"
+#resource "azurerm_resource_group" "webserver" {
+#   name = "app-server"
 #   location = var.location
 #}
 
 resource "azurerm_network_security_group" "allowedports" {
    name = "allowedports"
-   resource_group_name = azurerm_resource_group.obabwebserver.name
+   resource_group_name = azurerm_resource_group.webserver.name
    location = var.location
   
    security_rule {
@@ -63,10 +63,10 @@ resource "azurerm_network_security_group" "allowedports" {
    }
 }
 
-resource "azurerm_public_ip" "obabwebserver_public_ip" {
-   name = "obabwebserver_public_ip"
+resource "azurerm_public_ip" "webserver_public_ip" {
+   name = "webserver_public_ip"
    location = var.location
-   resource_group_name = azurerm_resource_group.obabwebserver.name
+   resource_group_name = azurerm_resource_group.webserver.name
    allocation_method = "Dynamic"
 
    tags = {
@@ -74,32 +74,32 @@ resource "azurerm_public_ip" "obabwebserver_public_ip" {
        costcenter = "it"
    }
 
-   depends_on = [azurerm_resource_group.obabwebserver]
+   depends_on = [azurerm_resource_group.webserver]
 }
 
-resource "azurerm_network_interface" "obabwebserver" {
+resource "azurerm_network_interface" "webserver" {
    name = "app-interface"
    location = var.location
-   resource_group_name = azurerm_resource_group.obabwebserver.name
+   resource_group_name = azurerm_resource_group.webserver.name
 
    ip_configuration {
        name = "internal"
        private_ip_address_allocation = "Dynamic"
-       subnet_id = azurerm_subnet.obabwebserver-subnet.id
-       public_ip_address_id = azurerm_public_ip.obabwebserver_public_ip.id
+       subnet_id = azurerm_subnet.webserver-subnet.id
+       public_ip_address_id = azurerm_public_ip.webserver_public_ip.id
    }
 
-   depends_on = [azurerm_resource_group.obabwebserver]
+   depends_on = [azurerm_resource_group.webserver]
 }
 
-resource "azurerm_linux_virtual_machine" "obabapp" {
+resource "azurerm_linux_virtual_machine" "app" {
    size = var.instance_size
-   name = "app-obabwebserver"
-   resource_group_name = azurerm_resource_group.obabwebserver.name
+   name = "app-webserver"
+   resource_group_name = azurerm_resource_group.webserver.name
    location = var.location
    custom_data = base64encode(file("init-script.sh"))
    network_interface_ids = [
-       azurerm_network_interface.obabwebserver.id,
+       azurerm_network_interface.webserver.id,
    ]
 
    source_image_reference {
@@ -109,8 +109,8 @@ resource "azurerm_linux_virtual_machine" "obabapp" {
        version = "latest"
    }
 
-   computer_name = "obabapp"
-   admin_username = "obabadmin"
+   computer_name = "app"
+   admin_username = "admin"
    admin_password = "Azertyuiop1234"
    disable_password_authentication = false
 
@@ -126,5 +126,5 @@ resource "azurerm_linux_virtual_machine" "obabapp" {
        costcenter = "it"
    }
 
-   depends_on = [azurerm_resource_group.obabwebserver]
+   depends_on = [azurerm_resource_group.webserver]
 }
