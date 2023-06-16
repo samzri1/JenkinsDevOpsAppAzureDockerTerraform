@@ -13,6 +13,6 @@ provider "azurerm" {
 
 module "webserverModule" {
   source = "github.com/obabaldbiyat/JenkinsDevOpsAppAzureDockerTerraform/webserverModule"
-  Resource_Group_name = "obab_Prod_"
+  Resource_Group_name = "prod_"
   location = "westeurope"
 }
