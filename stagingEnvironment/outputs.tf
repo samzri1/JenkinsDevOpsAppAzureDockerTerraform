@@ -14,6 +14,6 @@ output "The_websrever_Private_ip" {
    value = module.webserverModule.The_websrever_Private_ip
 }
 
-output "The_samwebserver_Public_ip" {
-   value = module.webserverModule.The_samwebserver_Public_ip
+output "The_obabwebserver_Public_ip" {
+   value = module.webserverModule.The_obabwebserver_Public_ip
 }
